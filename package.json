@@ -8,6 +8,9 @@
     "start:dev": "node_modules/.bin/nodemon --inspect src/server.js",
     "start": "node src/server.js"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/a-abdelghany/oda-channels-cm.git"
@@ -15,7 +18,7 @@
   "author": "ahmed.m.abdelghany@oracle.com",
   "license": "ISC",
   "dependencies": {
-    "@oracle/bots-node-sdk": "^2.3.0",
+    "@oracle/bots-node-sdk": "^2.1.3",
     "axios": "^0.18.0",
     "express": "^4.16.4",
     "https": "^1.0.0",
