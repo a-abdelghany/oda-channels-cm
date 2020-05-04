@@ -1,4 +1,4 @@
-const WhatsAppSender = require('./WhatsAppSender');
+// const WhatsAppSender = require('./WhatsAppSender');
 const https = require('https')
 const Config = require('../../config/Config');
 const txtMessageTemplate = require('../../config/CMMessageTemplates/ToUserTextMessage.json');
@@ -18,7 +18,7 @@ const MAX_CARD_ACTIONS = 3
  */
 class WhatsApp {
     constructor() {
-        this.whatsAppSender = new WhatsAppSender();
+        //this.whatsAppSender = new WhatsAppSender();
     }
 
     /**
@@ -178,7 +178,7 @@ class WhatsApp {
         let self = this;
         messages.forEach(message => {
             message.role = 'appMaker';
-            self.whatsAppSender.queueMessage(userId, message);
+            // self.whatsAppSender.queueMessage(userId, message);
         });
     }
 
@@ -263,7 +263,7 @@ class WhatsApp {
     _processWhatsAppDeliveryMessages(messages) {
         let self = this;
         messages.forEach(message => {
-            self.whatsAppSender.messageDelivered(message._id);
+            // self.whatsAppSender.messageDelivered(message._id);
         });
     }
 

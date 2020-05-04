@@ -21,21 +21,21 @@ class WhatsAppSender {
         if (proxy) {
             logger.info('using proxy server %j', proxy);
             const agent = new HttpsProxyAgent(proxy);
-            this.smoochAgent = new SmoochCore({
-                keyId: Config.SMOOCH_KEY_ID,
-                secret: Config.SMOOCH_SECRET,
-                scope: 'app',
-                httpAgent: agent
-            });
+            // this.smoochAgent = new SmoochCore({
+            //     keyId: Config.SMOOCH_KEY_ID,
+            //     secret: Config.SMOOCH_SECRET,
+            //     scope: 'app',
+            //     httpAgent: agent
+            // });
 
         }
         // No Proxy
         else {
-            this.smoochAgent = new SmoochCore({
-                keyId: Config.SMOOCH_KEY_ID,
-                secret: Config.SMOOCH_SECRET,
-                scope: 'app',
-            });
+            // this.smoochAgent = new SmoochCore({
+            //     keyId: Config.SMOOCH_KEY_ID,
+            //     secret: Config.SMOOCH_SECRET,
+            //     scope: 'app',
+            // });
         }
 
         this._setupEvents();
@@ -74,7 +74,7 @@ class WhatsAppSender {
             function () {
                 if (self.messagesQueue.length > 0) {
                     let nextMessage = self.messagesQueue[self.messagesQueue.length - 1];
-                    self._sendMessageToSmooch(nextMessage, self.smoochAgent);
+                    // self._sendMessageToSmooch(nextMessage, self.smoochAgent);
                 }
             });
     }
@@ -92,7 +92,8 @@ class WhatsAppSender {
                 message
             } = payload;
 
-            let whatsAppResponse = await self.smoochAgent.appUsers.sendMessage(userId, message);
+           let whatsAppResponse ;
+ //           let whatsAppResponse = await self.smoochAgent.appUsers.sendMessage(userId, message);
 
             // As smooch doesn't send delivery messages for WEB, IOS, ANDROID, the response of sending a message
             // is considered a successful delivery message according to smooch documentation.
