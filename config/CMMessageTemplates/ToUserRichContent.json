@@ -1,0 +1,31 @@
+{
+    "messages": {
+        "authentication": {
+            "productToken": "your product token"
+        },
+        "msg": [{
+            "body": {
+                "type": "auto",
+                "content": "Fallback Text for SMS"
+            },
+            "to": [{
+                "number": "00316012345678"
+            }],
+            "from": "00316098765432",
+            "allowedChannels": ["WhatsApp"],
+            "richContent": {
+                "conversation": [{
+                    "text": "A text message with *bold* formatting in a speech bubble."
+                }, {
+                    "text": "Another speech bubble"
+                }, {
+                    "media": {
+                        "mediaName": "and an image",
+                        "mediaUri": "https://www.cm.com/cdn/web/nl-nl/blog/conversational-commerce.jpg",
+                        "mimeType": "image/jpg"
+                    }
+                }]
+            }
+        }]
+    }
+}
