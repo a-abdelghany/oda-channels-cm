@@ -46,8 +46,7 @@ class WhatsApp {
                 webhookChannel: "whatsapp"
             }
         });
-
-        responses = odaMessages;
+        return odaMessages;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //TODO - Handle all message cases.
