@@ -1,7 +1,7 @@
 const WhatsAppSender = require('./WhatsAppSender');
 const https = require('https')
 const Config = require('../../config/Config');
-const txtMessageTemplate = require('../../config/CMMessageTemplate/ToUserTextMessage');
+const txtMessageTemplate = require('../../config/CMMessageTemplates/ToUserTextMessage.json');
 const _ = require('underscore');
 const { MessageModel } = require('@oracle/bots-node-sdk/lib');
 const log4js = require('log4js');
