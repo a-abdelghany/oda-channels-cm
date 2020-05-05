@@ -186,7 +186,8 @@ class WhatsApp {
         const data = JSON.stringify(payload);
 
         const options = {
-            hostname: Config.CM_GATEWAY_URL,
+            hostname: Config.CM_GATEWAY_HOST,
+            path: Config.CM_GATEWAY_PATH,
             port: 443,
             method: 'POST',
             headers: {
