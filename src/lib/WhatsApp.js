@@ -115,12 +115,12 @@ class WhatsApp {
         switch (type) {
             case 'text':
                 {
-                    response = self._processODATextMessage(messagePayload.text, payload.userId);
+                    response = self._processODATextMessage(messagePayload.text, userId);
                     break;
                 };
             case 'card':
                 {
-                    response = self._processODACards(messagePayload);
+                    response = self._processODACards(messagePayload, userId);
                     break;
                 }
             case 'attachment':
@@ -392,7 +392,7 @@ class WhatsApp {
      * @returns {object} Smooch carousel message payload.
      * @param {object} messagePayload - ODA Message Payload
      */
-    _processODACards(messagePayload) {
+    _processODACards(messagePayload, userId) {
         let self = this;
         logger.info("Generating a Carousel");
         let cmCards = [];
