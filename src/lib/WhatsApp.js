@@ -404,7 +404,9 @@ class WhatsApp {
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", text);
         response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
+        logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
+
         return response;
     }
 
