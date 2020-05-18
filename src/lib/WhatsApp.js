@@ -403,7 +403,7 @@ class WhatsApp {
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
-        response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
+        response = response.replace("{{CONVERSATION_BODY}}", cmCards);
         logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
 
