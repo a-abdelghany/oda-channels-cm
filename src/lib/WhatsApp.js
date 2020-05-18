@@ -402,7 +402,7 @@ class WhatsApp {
         let response = JSON.stringify(richMessageTemplate).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
-        response = response.replace("{{MESSAGE_TEXT}}", text);
+        response = response.replace("{{MESSAGE_TEXT}}", "ODA");
         response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
         logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
