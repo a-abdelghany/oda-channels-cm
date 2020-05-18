@@ -14,7 +14,7 @@
             "from": "{{FROM_NUMBER}}",
             "allowedChannels": ["WhatsApp"],
             "richContent": {
-                "conversation": {{CONVERSATION_BODY}}
+                "conversation": "{{CONVERSATION_BODY}}"
             }
         }]
     }

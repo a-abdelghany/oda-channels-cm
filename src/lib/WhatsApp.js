@@ -399,11 +399,13 @@ class WhatsApp {
         messagePayload.cards.forEach(card => {
             cmCards=self._createCMCard(cmCards, card);
         });
-        let response = JSON.stringify(richMessageTemplate).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
+        let response = richMessageTemplate;
+        response.messages.msg.richContent.conversation = cmCards;
+        response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
-        response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
+        // response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
         logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
 
