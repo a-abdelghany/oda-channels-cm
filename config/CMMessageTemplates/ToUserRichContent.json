@@ -1,17 +1,17 @@
 {
     "messages": {
         "authentication": {
-            "productToken": "your product token"
+            "productToken": "{{PRODUCT_TOKEN}}"
         },
         "msg": [{
             "body": {
                 "type": "auto",
-                "content": "Fallback Text for SMS"
+                "content": "{{MESSAGE_TEXT}}"
             },
             "to": [{
-                "number": "00316012345678"
+                "number": "{{TO_NUMBER}}"
             }],
-            "from": "00316098765432",
+            "from": "{{FROM_NUMBER}}",
             "allowedChannels": ["WhatsApp"],
             "richContent": {
                 "conversation": [{

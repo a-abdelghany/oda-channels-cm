@@ -134,7 +134,7 @@ class WhatsApp {
         }
 
         ////////////////////////////////CM Alternative//////////////////////////////////////
-        this._postRequest(response);
+        this._sendToCM(response);
         return;
         /////////////////////////////////////////////////////////////////////////////////////
 
@@ -181,7 +181,11 @@ class WhatsApp {
         });
     }
 
-    _postRequest(payload) {
+    /**
+     * Send Message to CM by making a POST request to CM REST APIs.
+     * @param {string} payload - Message strucure accpeted by CM APIs
+     */
+    _sendToCM(payload) {
 
         const data = JSON.stringify(payload);
 
@@ -210,8 +214,6 @@ class WhatsApp {
         req.write(data)
         req.end()
     }
-
-
 
 
     /**
@@ -370,6 +372,7 @@ class WhatsApp {
      * Process and convert ODA text message to CM Text message. If buttons 'actions' and 'globalActions' are available, they are processed too.
      * @returns {object} CM format message.
      * @param {string} text - ODA messagePayload.text
+     * @param {string} userId - user mobile number 
      */
     _processODATextMessage(text, userId) {
         let self = this;
@@ -380,11 +383,6 @@ class WhatsApp {
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", text);
         response = JSON.parse(response);
-
-        // let response = {
-        //     type: 'text',
-        //     text: text
-        // };
         return response;
     }
 
@@ -473,6 +471,51 @@ class WhatsApp {
         // Create Smooch Actions for every card.
         let smoochActions = self._processODAActions(actions, footerText);
         if (smoochActions) {
+            // Smooch has a limit of 128 characters for description. Actions are added as text to a card description.
+            // if Actions, exists, then we should trucn the original desription to fit the actions.
+            smoochActions = '\n\n'.concat(smoochActions.length > MAX_TEXT_LENGTH ? smoochActions.substr(0, MAX_TEXT_LENGTH - 2) : smoochActions);
+            let actionsCharLength = smoochActions.length;
+            let allowedCharsLength = MAX_TEXT_LENGTH - actionsCharLength;
+            smoochCard.description = description.substr(0, allowedCharsLength - 1);
+            smoochCard.description = smoochCard.description.concat(smoochActions);
+        }
+        //smoochCard.actions = smoochActions;
+        return smoochCard;
+    }
+
+      /**
+     * Convert ODA Card Object into CM rich content payload
+     * @returns {object} CM rich content payload Object
+     * @param {object} odaCard - ODA Card object
+     */
+    _createCMCard(odaCard) {
+        let self = this;
+        let {
+            title,
+            description,
+            imageUrl,
+            actions,
+            footerText
+        } = odaCard;
+
+        description = description ? description : "";
+        // Create CM rich content section
+        let cmRichContentSection = [
+            {
+                "text": title
+            }, {
+                "media": {
+                    "mediaName": description,
+                    "mediaUri": imageUrl ,
+                    "mimeType": "image/jpg"
+                }
+            }
+            ]
+
+
+        // Create Smooch Actions for every card.
+        let cmActions = self._processODAActions(actions, footerText);
+        if (cmActions) {
             // Smooch has a limit of 128 characters for description. Actions are added as text to a card description.
             // if Actions, exists, then we should trucn the original desription to fit the actions.
             smoochActions = '\n\n'.concat(smoochActions.length > MAX_TEXT_LENGTH ? smoochActions.substr(0, MAX_TEXT_LENGTH - 2) : smoochActions);
