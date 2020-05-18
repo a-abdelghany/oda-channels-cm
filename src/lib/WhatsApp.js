@@ -502,7 +502,7 @@ class WhatsApp {
 
         // Create CM rich content section
         let cardTitle = {
-            "text": cardTitle
+            "text": title
         };
         cmCards.push(cardTitle);
         //TODO - Adjust mime types
