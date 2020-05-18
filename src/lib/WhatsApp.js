@@ -397,7 +397,7 @@ class WhatsApp {
         logger.info("Generating a Carousel");
         let cmCards = [];
         messagePayload.cards.forEach(card => {
-            cmCards.push(self._createCMCard(cmCards, card));
+            cmCards=self._createCMCard(cmCards, card);
         });
         let response = JSON.stringify(richMessageTemplate).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
