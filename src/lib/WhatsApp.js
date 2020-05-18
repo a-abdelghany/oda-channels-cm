@@ -499,10 +499,10 @@ class WhatsApp {
         description = description ? description : "";
 
         // Create CM rich content section
-        let title = {
-            "text": title
+        let cardTitle = {
+            "text": cardTitle
         };
-        cmCards.push(title);
+        cmCards.push(cardTitle);
         let cardImage = {
             "media": {
                 "mediaName": description,
