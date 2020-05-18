@@ -14,17 +14,7 @@
             "from": "{{FROM_NUMBER}}",
             "allowedChannels": ["WhatsApp"],
             "richContent": {
-                "conversation": [{
-                    "text": "A text message with *bold* formatting in a speech bubble."
-                }, {
-                    "text": "Another speech bubble"
-                }, {
-                    "media": {
-                        "mediaName": "and an image",
-                        "mediaUri": "https://www.cm.com/cdn/web/nl-nl/blog/conversational-commerce.jpg",
-                        "mimeType": "image/jpg"
-                    }
-                }]
+                "conversation": "{{CONVERSATION_BODY}}"
             }
         }]
     }

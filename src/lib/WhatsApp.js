@@ -2,6 +2,7 @@
 const https = require('https')
 const Config = require('../../config/Config');
 const txtMessageTemplate = require('../../config/CMMessageTemplates/ToUserTextMessage.json');
+const richMessageTemplate = require('../../config/CMMessageTemplates/ToUserRichContent.json');
 const _ = require('underscore');
 const { MessageModel } = require('@oracle/bots-node-sdk/lib');
 const log4js = require('log4js');
@@ -394,20 +395,17 @@ class WhatsApp {
     _processODACards(messagePayload) {
         let self = this;
         logger.info("Generating a Carousel");
-        let response = {
-            type: 'list'
-        };
-        let smoochCards = [];
+        let cmCards = [];
         messagePayload.cards.forEach(card => {
-
-            smoochCards.push(self._createSmoochCard(card));
+            cmCards.push(self._createCMCard(cmCards, card));
         });
-
-        response.items = smoochCards;
-
+        let response = JSON.stringify(richMessageTemplate).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
+        response = response.replace("{{TO_NUMBER}}", userId);
+        response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
+        response = response.replace("{{MESSAGE_TEXT}}", text);
+        response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
+        response = JSON.parse(response);
         return response;
-
-
     }
 
     /**
@@ -483,12 +481,12 @@ class WhatsApp {
         return smoochCard;
     }
 
-      /**
-     * Convert ODA Card Object into CM rich content payload
-     * @returns {object} CM rich content payload Object
-     * @param {object} odaCard - ODA Card object
-     */
-    _createCMCard(odaCard) {
+    /**
+   * Convert ODA Card Object into CM rich content payload
+   * @returns {object} CM rich content payload Object
+   * @param {object} odaCard - ODA Card object
+   */
+    _createCMCard(cmCards, odaCard) {
         let self = this;
         let {
             title,
@@ -499,33 +497,31 @@ class WhatsApp {
         } = odaCard;
 
         description = description ? description : "";
+
         // Create CM rich content section
-        let cmRichContentSection = [
-            {
-                "text": title
-            }, {
-                "media": {
-                    "mediaName": description,
-                    "mediaUri": imageUrl ,
-                    "mimeType": "image/jpg"
-                }
+        let title = {
+            "text": title
+        };
+        cmCards.push(title);
+        let cardImage = {
+            "media": {
+                "mediaName": description,
+                "mediaUri": imageUrl,
+                "mimeType": "image/jpg"
             }
-            ]
+        };
+        cmCards.push(cardImage);
 
-
-        // Create Smooch Actions for every card.
+        // Create Actions for every card.
         let cmActions = self._processODAActions(actions, footerText);
+
         if (cmActions) {
-            // Smooch has a limit of 128 characters for description. Actions are added as text to a card description.
-            // if Actions, exists, then we should trucn the original desription to fit the actions.
-            smoochActions = '\n\n'.concat(smoochActions.length > MAX_TEXT_LENGTH ? smoochActions.substr(0, MAX_TEXT_LENGTH - 2) : smoochActions);
-            let actionsCharLength = smoochActions.length;
-            let allowedCharsLength = MAX_TEXT_LENGTH - actionsCharLength;
-            smoochCard.description = description.substr(0, allowedCharsLength - 1);
-            smoochCard.description = smoochCard.description.concat(smoochActions);
+            let actionsObj = {
+                "text": cmActions
+            }
+            cmCards.push(actionsObj);
         }
-        //smoochCard.actions = smoochActions;
-        return smoochCard;
+        return cmCards;
     }
 
     /**
