@@ -503,6 +503,7 @@ class WhatsApp {
             "text": cardTitle
         };
         cmCards.push(cardTitle);
+        //TODO - Adjust mime types
         let cardImage = {
             "media": {
                 "mediaName": description,
