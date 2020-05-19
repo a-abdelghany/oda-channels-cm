@@ -400,7 +400,7 @@ class WhatsApp {
             cmCards=self._createCMCard(cmCards, card);
         });
         let response = richMessageTemplate;
-        response.messages.msg.richContent.conversation = cmCards;
+        response.messages.msg[0].richContent.conversation = cmCards;
         response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
