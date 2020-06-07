@@ -111,7 +111,7 @@ class WhatsApp {
             globalActions,
             footerText
         } = messagePayload;
-        //    logger.info(">>>>>>> PAYLOAD: " + JSON.stringify(messagePayload) + " <<<<<<<<<<<<<<<<<<");
+            logger.info(">>>>>>> PAYLOAD: " + JSON.stringify(messagePayload) + " <<<<<<<<<<<<<<<<<<");
 
         switch (type) {
             case 'text':
