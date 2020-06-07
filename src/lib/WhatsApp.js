@@ -111,7 +111,7 @@ class WhatsApp {
             globalActions,
             footerText
         } = messagePayload;
-        logger.info(">>>>>>> PAYLOAD: " + JSON.stringify(messagePayload) + " <<<<<<<<<<<<<<<<<<");
+        //    logger.info(">>>>>>> PAYLOAD: " + JSON.stringify(messagePayload) + " <<<<<<<<<<<<<<<<<<");
 
         switch (type) {
             case 'text':
@@ -509,8 +509,21 @@ class WhatsApp {
         // };
 
         fullDescription += "*" + title + "* \n\n";
-        fullDescription += description;
+        fullDescription += description + "\n\n";
         //cmCards.push(cardTitle);
+
+        // Create Actions for every card.
+        let cmActions = self._processODAActions(actions, footerText);
+
+        if (cmActions) {
+            // let actionsObj = {
+            //     "text": cmActions
+            // }
+            fullDescription += cmActions;
+            // cmCards.push(actionsObj);
+        }
+
+
         //TODO - Adjust mime types
         let cardImage = {
             "media": {
@@ -521,15 +534,7 @@ class WhatsApp {
         };
         cmCards.push(cardImage);
 
-        // Create Actions for every card.
-        let cmActions = self._processODAActions(actions, footerText);
 
-        if (cmActions) {
-            let actionsObj = {
-                "text": cmActions
-            }
-            cmCards.push(actionsObj);
-        }
         return cmCards;
     }
 
