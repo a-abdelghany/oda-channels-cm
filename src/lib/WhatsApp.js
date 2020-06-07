@@ -397,7 +397,7 @@ class WhatsApp {
         logger.info("Generating a Carousel");
         let cmCards = [];
         messagePayload.cards.forEach(card => {
-            cmCards=self._createCMCard(cmCards, card);
+            cmCards = self._createCMCard(cmCards, card);
         });
         let response = richMessageTemplate;
         response.messages.msg[0].richContent.conversation = cmCards;
@@ -405,7 +405,6 @@ class WhatsApp {
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
-        // response = response.replace("{{CONVERSATION_BODY}}", JSON.stringify(cmCards));
         logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
 
@@ -504,7 +503,7 @@ class WhatsApp {
 
         // Create CM rich content section
         let cardTitle = {
-            "text": title
+            "text": "*" + title + "*"
         };
         cmCards.push(cardTitle);
         //TODO - Adjust mime types
