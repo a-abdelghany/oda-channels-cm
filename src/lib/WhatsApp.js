@@ -111,12 +111,14 @@ class WhatsApp {
             globalActions,
             footerText
         } = messagePayload;
-            logger.info(">>>>>>> PAYLOAD: " + JSON.stringify(messagePayload) + " <<<<<<<<<<<<<<<<<<");
+        logger.info(">>>>>>> PAYLOAD: " + JSON.stringify(messagePayload) + " <<<<<<<<<<<<<<<<<<");
 
         switch (type) {
             case 'text':
                 {
-                    response = self._processODATextMessage(messagePayload.text, userId);
+                    // Create Actions for every card.
+                    let cmActions = self._processODAActions(actions, footerText);
+                    response = self._processODATextMessage(messagePayload.text + "\n\n" + cmActions, userId);
                     break;
                 };
             case 'card':

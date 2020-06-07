@@ -1,0 +1,43 @@
+{
+    "footerText": "Enter number to choose your size",
+    "text": "What size do you want?",
+    "type": "text",
+    "actions": [
+        {
+            "postback": {
+                "variables": {
+                    "pizzaSize": "Small"
+                },
+                "system.botId": "63EF3508-C4C3-49D6-B254-B26037725F86",
+                "action": "",
+                "system.state": "AskPizzaSize"
+            },
+            "label": "1. Small",
+            "type": "postback"
+        },
+        {
+            "postback": {
+                "variables": {
+                    "pizzaSize": "Medium"
+                },
+                "system.botId": "63EF3508-C4C3-49D6-B254-B26037725F86",
+                "action": "",
+                "system.state": "AskPizzaSize"
+            },
+            "label": "2. Medium",
+            "type": "postback"
+        },
+        {
+            "postback": {
+                "variables": {
+                    "pizzaSize": "Large"
+                },
+                "system.botId": "63EF3508-C4C3-49D6-B254-B26037725F86",
+                "action": "",
+                "system.state": "AskPizzaSize"
+            },
+            "label": "3. Large",
+            "type": "postback"
+        }
+    ]
+}
