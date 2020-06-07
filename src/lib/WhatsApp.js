@@ -111,6 +111,7 @@ class WhatsApp {
             globalActions,
             footerText
         } = messagePayload;
+        logger.info(">>>>>>> PAYLOAD: " + payload + " <<<<<<<<<<<<<<<<<<");
 
         switch (type) {
             case 'text':
@@ -507,7 +508,7 @@ class WhatsApp {
         //     "text": "*" + title + "* \n"
         // };
 
-        fullDescription += "*" + title + "* \n";
+        fullDescription += "*" + title + "* \n\n";
         fullDescription += description;
         //cmCards.push(cardTitle);
         //TODO - Adjust mime types
