@@ -118,10 +118,12 @@ class WhatsApp {
                 {
                     // Create Actions for every card.
                     let cmActions = self._processODAActions(actions, footerText);
-                    //logger.info(">>>>>>> List Actions: " + JSON.stringify(cmActions) + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> List Actions: " + JSON.stringify(cmActions) + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> Text: " + messagePayload.text + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> List Actions: " + cmActions + " <<<<<<<<<<<<<<<<<<");
 
-                    response = self._processODATextMessage(messagePayload.text + "\n\n" + JSON.stringify(cmActions), userId);
-                    //response = self._processODATextMessage(messagePayload.text, userId);
+                    //response = self._processODATextMessage(messagePayload.text + "\n\n" + JSON.stringify(cmActions), userId);
+                    response = self._processODATextMessage(messagePayload.text, userId);
 
                     break;
                 };
