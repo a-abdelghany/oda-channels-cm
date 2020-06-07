@@ -120,8 +120,8 @@ class WhatsApp {
                     let cmActions = self._processODAActions(actions, footerText);
                     logger.info("\n\n>>>>>>> Text: " + messagePayload.text + JSON.stringify(cmActions) + " <<<<<<<<<<<<<<<<<<");
 
-                    //response = self._processODATextMessage(messagePayload.text + "\n\n" + JSON.stringify(cmActions), userId);
-                    response = self._processODATextMessage(messagePayload.text, userId);
+                    response = self._processODATextMessage(messagePayload.text + "\n\n" + cmActions, userId);
+                    //response = self._processODATextMessage(messagePayload.text, userId);
 
                     break;
                 };
