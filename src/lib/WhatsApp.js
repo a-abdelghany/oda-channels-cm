@@ -491,6 +491,7 @@ class WhatsApp {
    */
     _createCMCard(cmCards, odaCard) {
         let self = this;
+        let fullDescription = "";
         let {
             title,
             description,
@@ -502,14 +503,17 @@ class WhatsApp {
         description = description ? description : "";
 
         // Create CM rich content section
-        let cardTitle = {
-            "text": "*" + title + "*"
-        };
-        cmCards.push(cardTitle);
+        // let cardTitle = {
+        //     "text": "*" + title + "* \n"
+        // };
+
+        fullDescription += "*" + title + "* \n";
+        fullDescription += description;
+        //cmCards.push(cardTitle);
         //TODO - Adjust mime types
         let cardImage = {
             "media": {
-                "mediaName": description,
+                "mediaName": fullDescription,
                 "mediaUri": imageUrl,
                 "mimeType": "image/jpg"
             }
