@@ -501,7 +501,7 @@ class WhatsApp {
    */
     _createCMCard(messagePayload) {
         let cmCards = [];
-        
+        let self = this;
         messagePayload.cards.forEach(card => {
             let fullDescription = "";
             let {
