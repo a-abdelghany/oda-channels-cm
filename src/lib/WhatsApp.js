@@ -127,7 +127,7 @@ class WhatsApp {
                     logger.info("\n\n>>>>>>> Text: " + JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActions).slice(1, -1) + " <<<<<<<<<<<<<<<<<<");
 
 
-                    response = self._processODATextMessage(messageBody, userId);
+                    response = self._processODATextMessage(JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActions).slice(1, -1) , userId);
                     //response = self._processODATextMessage(messagePayload.text, userId);
 
                     break;
