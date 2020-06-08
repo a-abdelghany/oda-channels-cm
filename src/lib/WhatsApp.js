@@ -119,9 +119,13 @@ class WhatsApp {
                     // Create Actions for every card.
                     let cmActions = self._processODAActions(actions, footerText);
                     let cmActionsStr = JSON.stringify(cmActions);
-                    cmActionsStr = cmActionsStr.slice(1,-1);
-                    let messageBody = JSON.stringify(messagePayload.text).slice(1,-1) + "\n\n" + cmActionsStr;
-                    logger.info("\n\n>>>>>>> Text: " + messageBody+ " <<<<<<<<<<<<<<<<<<");
+                    cmActionsStr = cmActionsStr.slice(1, -1);
+                    let messageBody = JSON.stringify(messagePayload.text).slice(1, -1) + "\n\n" + cmActionsStr;
+                    logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> Text: " + JSON.stringify(messagePayload.text + cmActionsStr).slice(1, -1) + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> Text: " + JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActionsStr) + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> Text: " + JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActions).slice(1, -1) + " <<<<<<<<<<<<<<<<<<");
+
 
                     response = self._processODATextMessage(messageBody, userId);
                     //response = self._processODATextMessage(messagePayload.text, userId);
