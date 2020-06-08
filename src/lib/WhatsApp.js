@@ -118,9 +118,9 @@ class WhatsApp {
                 {
                     // Create Actions for every card.
                     let cmActions = self._processODAActions(actions, footerText);
-                    logger.info("\n\n>>>>>>> Text: " + JSON.stringify(messagePayload.text + "\n\n" + cmActions) + " <<<<<<<<<<<<<<<<<<");
+                    logger.info("\n\n>>>>>>> Text: " + messagePayload.text + "\n\n" + cmActions + " <<<<<<<<<<<<<<<<<<");
 
-                    response = self._processODATextMessage(JSON.stringify(messagePayload.text + "\n\n" + cmActions), userId);
+                    response = self._processODATextMessage(messagePayload.text + "\n\n" + cmActions, userId);
                     //response = self._processODATextMessage(messagePayload.text, userId);
 
                     break;
