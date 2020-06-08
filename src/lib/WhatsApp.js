@@ -501,6 +501,7 @@ class WhatsApp {
    */
     _createCMCard(messagePayload) {
         let cmCards = [];
+        
         messagePayload.cards.forEach(card => {
             let fullDescription = "";
             let {
@@ -509,7 +510,7 @@ class WhatsApp {
                 imageUrl,
                 actions,
                 footerText
-            } = odaCard;
+            } = card;
 
             description = description ? description : "";
 
