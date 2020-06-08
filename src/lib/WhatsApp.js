@@ -117,7 +117,7 @@ class WhatsApp {
             case 'text':
                 {
                     // Create Actions for every card.
-                    let cmActions = self._processODAActions(actions, footerText);
+                    let cmActions = self._processODAActions(actions, globalActions);
                     let messageBody = "";
                     if (cmActions) {
                         messageBody = JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActions).slice(1, -1);
@@ -408,10 +408,7 @@ class WhatsApp {
     _processODACards(messagePayload, userId) {
         let self = this;
         logger.info("Generating a Carousel");
-        let cmCards = [];
-        messagePayload.cards.forEach(card => {
-            cmCards = self._createCMCard(cmCards, card);
-        });
+        let cmCards = self._createCMCard(messagePayload);
         let response = richMessageTemplate;
         response.messages.msg[0].richContent.conversation = cmCards;
         response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
@@ -502,51 +499,55 @@ class WhatsApp {
    * @returns {object} CM rich content payload Object
    * @param {object} odaCard - ODA Card object
    */
-    _createCMCard(cmCards, odaCard) {
-        let self = this;
-        let fullDescription = "";
-        let {
-            title,
-            description,
-            imageUrl,
-            actions,
-            footerText
-        } = odaCard;
+    _createCMCard(messagePayload) {
+        let cmCards = [];
+        messagePayload.cards.forEach(card => {
+            cmCards = self._createCMCard(cmCards, card);
 
-        description = description ? description : "";
+            let self = this;
+            let fullDescription = "";
+            let {
+                title,
+                description,
+                imageUrl,
+                actions,
+                footerText
+            } = odaCard;
 
-        // Create CM rich content section
-        // let cardTitle = {
-        //     "text": "*" + title + "* \n"
-        // };
+            description = description ? description : "";
 
-        fullDescription += "*" + title + "* \n\n";
-        fullDescription += description + "\n\n";
-        //cmCards.push(cardTitle);
+            // Create CM rich content section
+            // let cardTitle = {
+            //     "text": "*" + title + "* \n"
+            // };
 
-        // Create Actions for every card.
-        let cmActions = self._processODAActions(actions, footerText);
+            fullDescription += "*" + title + "* \n\n";
+            fullDescription += description + "\n\n";
+            //cmCards.push(cardTitle);
 
-        if (cmActions) {
-            // let actionsObj = {
-            //     "text": cmActions
-            // }
-            fullDescription += cmActions;
-            // cmCards.push(actionsObj);
-        }
+            // Create Actions for every card.
+            let cmActions = self._processODAActions(actions, messagePayload.globalActions);
 
-
-        //TODO - Adjust mime types
-        let cardImage = {
-            "media": {
-                "mediaName": fullDescription,
-                "mediaUri": imageUrl,
-                "mimeType": "image/jpg"
+            if (cmActions) {
+                // let actionsObj = {
+                //     "text": cmActions
+                // }
+                fullDescription += cmActions;
+                // cmCards.push(actionsObj);
             }
-        };
-        cmCards.push(cardImage);
 
 
+            //TODO - Adjust mime types
+            let cardImage = {
+                "media": {
+                    "mediaName": fullDescription,
+                    "mediaUri": imageUrl,
+                    "mimeType": "image/jpg"
+                }
+            };
+            cmCards.push(cardImage);
+
+        });
         return cmCards;
     }
 
