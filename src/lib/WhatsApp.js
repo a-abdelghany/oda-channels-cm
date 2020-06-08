@@ -501,11 +501,7 @@ class WhatsApp {
    */
     _createCMCard(messagePayload) {
         let cmCards = [];
-        let self = this;
-
         messagePayload.cards.forEach(card => {
-            cmCards = self._createCMCard(cmCards, card);
-
             let fullDescription = "";
             let {
                 title,
@@ -530,11 +526,7 @@ class WhatsApp {
             let cmActions = self._processODAActions(actions, messagePayload.globalActions);
 
             if (cmActions) {
-                // let actionsObj = {
-                //     "text": cmActions
-                // }
                 fullDescription += cmActions;
-                // cmCards.push(actionsObj);
             }
 
 
