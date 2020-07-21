@@ -1,6 +1,10 @@
 // ODA Details
-module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://botv2frk1I0056HE58FAAbots-mpaasocimt.botmxp.ocp.oraclecloud.com:443/connectors/v1/tenants/idcs-6d466372210e4300bb31f4db15e8e96c/listeners/webhook/channels/490cc1df-7e6a-46dc-bb08-3cb159f253bb';
-module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'G3TEKZfGU8zVuaVECYPYNSGEYrucVTpF';
+//Pizza Bot
+//module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://botv2frk1I0056HE58FAAbots-mpaasocimt.botmxp.ocp.oraclecloud.com:443/connectors/v1/tenants/idcs-6d466372210e4300bb31f4db15e8e96c/listeners/webhook/channels/490cc1df-7e6a-46dc-bb08-3cb159f253bb';
+// module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'G3TEKZfGU8zVuaVECYPYNSGEYrucVTpF';
+//GACA Bot
+module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://oda-9f5ea08ea98d4248972c35faacd35d8f-da15.data.digitalassistant.oci.oraclecloud.com/connectors/v2/listeners/webhook/channels/27ba0684-513d-47fb-a06a-1e8b92e5b90a';
+module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'rzAWgOBnBS3XvwsWgVLwsjZ2AsmhiVpy';
 
 //#### CM Details ######
 exports.CM_GATEWAY_HOST = process.env.CM_GATEWAY_HOST || 'gw.cmtelecom.com'
