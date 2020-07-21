@@ -2,11 +2,17 @@
 module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://botv2frk1I0056HE58FAAbots-mpaasocimt.botmxp.ocp.oraclecloud.com:443/connectors/v1/tenants/idcs-6d466372210e4300bb31f4db15e8e96c/listeners/webhook/channels/490cc1df-7e6a-46dc-bb08-3cb159f253bb';
 module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'G3TEKZfGU8zVuaVECYPYNSGEYrucVTpF';
 
-// CM Details
-exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
-exports.CM_FROM = process.env.CM_FROM || '0031762011571'
+//#### CM Details ######
 exports.CM_GATEWAY_HOST = process.env.CM_GATEWAY_HOST || 'gw.cmtelecom.com'
 exports.CM_GATEWAY_PATH = process.env.CM_GATEWAY_PATH || '/v1.0/message'
+//CM Whatsapp Config
+exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
+exports.CM_FROM = process.env.CM_FROM || '0031762011571'
+//CM Twitter Config
+exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
+exports.CM_FROM = process.env.CM_FROM || '1285550484590407681'
+
+
 
 
 // General Details

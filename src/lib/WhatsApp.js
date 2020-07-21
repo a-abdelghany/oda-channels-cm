@@ -44,7 +44,7 @@ class WhatsApp {
             userId: userId,
             messagePayload: messagePayload,
             metadata: {
-                webhookChannel: "whatsapp"
+                webhookChannel: "Twitter"
             }
         });
         return odaMessages;
@@ -263,7 +263,7 @@ class WhatsApp {
                 userId: userId,
                 messagePayload: messagePayload,
                 metadata: {
-                    webhookChannel: "whatsapp"
+                    webhookChannel: "Twitter"
                 }
             });
         });
