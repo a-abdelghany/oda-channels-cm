@@ -9,10 +9,10 @@ module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'rzAWgOBnB
 //#### CM Details ######
 exports.CM_GATEWAY_HOST = process.env.CM_GATEWAY_HOST || 'gw.cmtelecom.com'
 exports.CM_GATEWAY_PATH = process.env.CM_GATEWAY_PATH || '/v1.0/message'
-//CM Whatsapp Config
+//CM Whatsapp Config(PIZZA BOT)
 //exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
 //exports.CM_FROM = process.env.CM_FROM || '0031762011571'
-//CM Twitter Config
+//CM Twitter Config (GACA)
 exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
 exports.CM_FROM = process.env.CM_FROM || '1285550484590407681'
 
