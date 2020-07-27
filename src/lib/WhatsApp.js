@@ -1,7 +1,7 @@
 // const WhatsAppSender = require('./WhatsAppSender');
 const https = require('https')
 const Config = require('../../config/Config');
-const txtMessageTemplate = require('../../config/CMMessageTemplates/ToUserTextMessage.json');
+//const txtMessageTemplate = require('../../config/CMMessageTemplates/ToUserTextMessage.json');
 const richMessageTemplate = require('../../config/CMMessageTemplates/ToUserRichContent.json');
 const _ = require('underscore');
 const { MessageModel } = require('@oracle/bots-node-sdk/lib');
@@ -15,7 +15,7 @@ const MAX_CARDS = 10;
 const MAX_CARD_ACTIONS = 3
 
 /**
- * Utility Class to send and recieve messages from WhatsApp through CM.
+ * Utility Class to send and recieve messages from WhatsApp & Twitter through CM.
  */
 class WhatsApp {
     constructor() {
@@ -392,10 +392,18 @@ class WhatsApp {
         let self = this;
         logger.info("Generating a Text Message");
 
-        let response = JSON.stringify(txtMessageTemplate).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
+        let response = richMessageTemplate;
+        response.messages.msg[0].richContent.conversation = {
+            "text": text
+        };
+
+        let response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
-        response = response.replace("{{MESSAGE_TEXT}}", text);
+        response = response.replace("{{MESSAGE_TEXT}}", "ODA");
+        response = response.replace("{{ALLOWED_CHANNEL}}", Config.CM_CHANNEL);
+
+        logger.info("TEXT RESPONSE: " + response);
         response = JSON.parse(response);
         return response;
     }
@@ -411,10 +419,12 @@ class WhatsApp {
         let cmCards = self._createCMCard(messagePayload);
         let response = richMessageTemplate;
         response.messages.msg[0].richContent.conversation = cmCards;
+
         response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
+        response = response.replace("{{ALLOWED_CHANNEL}}", Config.CM_CHANNEL);
         logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
 
@@ -502,7 +512,7 @@ class WhatsApp {
     _createCMCard(messagePayload) {
         let cmCards = [];
         let self = this;
-        
+
         messagePayload.cards.forEach(card => {
             let fullDescription = "";
             let {
@@ -533,13 +543,31 @@ class WhatsApp {
 
 
             //TODO - Adjust mime types
-            let cardImage = {
-                "media": {
-                    "mediaName": fullDescription,
-                    "mediaUri": imageUrl,
-                    "mimeType": "image/jpg"
-                }
-            };
+            let imageName = imageUrl.split('/');
+            imageName = imageName[imageName.length - 1];
+            let imageExt = imageName.split('.');
+            imageExt = imageExt[imageExt.length - 1];
+            let mimeType = "image/" + imageExt;
+            let cardImage;
+            if (Config.CM_CHANNEL == 'Whatsapp') {
+                cardImage = {
+                    "media": {
+                        "mediaName": fullDescription,
+                        "mediaUri": imageUrl,
+                        "mimeType": mimeType
+                    }
+                };
+            } else if (Config.CM_CHANNEL == 'Twitter') {
+                cardImage = {
+                    "text": fullDescription,
+                    "media": {
+                        "mediaName": imageName,
+                        "mediaUri": imageUrl,
+                        "mimeType": mimeType
+                    }
+                };
+            }
+
             cmCards.push(cardImage);
 
         });

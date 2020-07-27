@@ -16,7 +16,9 @@ exports.CM_GATEWAY_PATH = process.env.CM_GATEWAY_PATH || '/v1.0/message'
 exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
 exports.CM_FROM = process.env.CM_FROM || '1285550484590407681'
 
-
+//Channel Type
+//exports.CM_CHANNEL = process.env.CM_CHANNEL || 'Whatsapp';
+exports.CM_CHANNEL = process.env.CM_CHANNEL || 'Twitter';
 
 
 // General Details
