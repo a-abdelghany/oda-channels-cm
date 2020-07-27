@@ -393,9 +393,9 @@ class WhatsApp {
         logger.info("Generating a Text Message");
 
         let response = richMessageTemplate;
-        response.messages.msg[0].richContent.conversation = {
+        response.messages.msg[0].richContent.conversation = [{
             "text": text
-        };
+        }];
 
         response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
