@@ -44,7 +44,7 @@ class WhatsApp {
             userId: userId,
             messagePayload: messagePayload,
             metadata: {
-                webhookChannel: "Twitter"
+                webhookChannel: Config.CM_CHANNEL
             }
         });
         return odaMessages;
@@ -402,7 +402,7 @@ class WhatsApp {
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
         response = response.replace("{{ALLOWED_CHANNEL}}", Config.CM_CHANNEL);
-
+        response = response.replace ("\\n","\n");
         logger.info("TEXT RESPONSE: " + response);
         response = JSON.parse(response);
         return response;
@@ -425,6 +425,8 @@ class WhatsApp {
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
         response = response.replace("{{ALLOWED_CHANNEL}}", Config.CM_CHANNEL);
+        response = response.replace ("\\n","\n");
+        
         logger.info("CARDS RESPONSE: " + response);
         response = JSON.parse(response);
 
