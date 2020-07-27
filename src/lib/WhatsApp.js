@@ -392,7 +392,7 @@ class WhatsApp {
         let self = this;
         logger.info("Generating a Text Message");
 
-        text = text.replace("\\n","\n");
+        text = text.replace(/\\n/g,"\n");
 
         let response = richMessageTemplate;
         response.messages.msg[0].richContent.conversation = [{
