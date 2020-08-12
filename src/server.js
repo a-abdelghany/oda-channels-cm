@@ -34,10 +34,14 @@ webhook.on(WebhookEvent.ERROR, console.error); // receive errors
 app.post('/bot/message', webhook.receiver()); // receive bot messages
 webhook.on(WebhookEvent.MESSAGE_RECEIVED, message => {
     logger.info('Received a message from ODA, processing message before sending to WhatsApp.');
-    if (req.query.channel == 'twitter') {
-        logger.info('>>>>>>>>>>>>>>>>>Request from Twitter.<<<<<<<<<<<<<<<<<<<<<<<');
-    } else if (req.query.channel == 'whatsapp') {
-        logger.info('>>>>>>>>>>>>>>>>>Request from WhatsApp.<<<<<<<<<<<<<<<<<<<<<<<');
+    // if (message.choices. == 'twitter') {
+    // logger.info('>>>>>>>>>>>>>>>>>Request from Twitter.<<<<<<<<<<<<<<<<<<<<<<<');
+    // } else if (req.query.channel == 'whatsapp') {
+    // logger.info('>>>>>>>>>>>>>>>>>Request from WhatsApp.<<<<<<<<<<<<<<<<<<<<<<<');
+    // }
+    for (let i = 0; i < message.choices.length; i++) {
+        const element = message.choices[i];
+        logger.info('Choice (' + i + '): ' + element);
     }
     whatsApp.send(message);
     logger.info('Message Sent successfully to WhatsApp.');
