@@ -34,6 +34,11 @@ webhook.on(WebhookEvent.ERROR, console.error); // receive errors
 app.post('/bot/message', webhook.receiver()); // receive bot messages
 webhook.on(WebhookEvent.MESSAGE_RECEIVED, message => {
     logger.info('Received a message from ODA, processing message before sending to WhatsApp.');
+    if (req.query.channel == 'twitter') {
+        logger.info('>>>>>>>>>>>>>>>>>Request from Twitter.<<<<<<<<<<<<<<<<<<<<<<<');
+    } else if (req.query.channel == 'whatsapp') {
+        logger.info('>>>>>>>>>>>>>>>>>Request from WhatsApp.<<<<<<<<<<<<<<<<<<<<<<<');
+    }
     whatsApp.send(message);
     logger.info('Message Sent successfully to WhatsApp.');
 
@@ -43,19 +48,19 @@ webhook.on(WebhookEvent.MESSAGE_RECEIVED, message => {
 app.post('/user/message', async (req, res) => {
     // Make sure Request is coming from CM by inspecting x-api-key header value
     // if (req.header('x-api-key') && req.header('x-api-key') == Config.SMOOCH_WEBHOOK_SECRET) {
-        try {
-            logger.info('Received a message from WhatsApp, processing message before sending to ODA.');
-            res.status(200).send();
-            let messages = whatsApp.recieve(req.body);
-            messages.forEach(async message => {
-                await webhook.send(message);
-                logger.info('Message Sent successfully to ODA.');
-            });
+    try {
+        logger.info('Received a message from WhatsApp, processing message before sending to ODA.');
+        res.status(200).send();
+        let messages = whatsApp.recieve(req.body);
+        messages.forEach(async message => {
+            await webhook.send(message);
+            logger.info('Message Sent successfully to ODA.');
+        });
 
-        } catch (error) {
-            logger.error(error);
-            res.status(400).end();
-        }
+    } catch (error) {
+        logger.error(error);
+        res.status(400).end();
+    }
     // } else { // missing x-api-key header value or it is invalid.
     //     let errorMessage = Errors.FORBIDDEN.message;
     //     logger.error(errorMessage);
