@@ -263,7 +263,7 @@ class WhatsApp {
                 userId: userId,
                 messagePayload: messagePayload,
                 metadata: {
-                    webhookChannel: "Twitter"
+                    webhookChannel: Config.CM_CHANNEL
                 }
             });
         });
