@@ -1,24 +1,27 @@
 // ODA Details
+//#################################################Pizza Bot################################################################
 //Pizza Bot
-//module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://botv2frk1I0056HE58FAAbots-mpaasocimt.botmxp.ocp.oraclecloud.com:443/connectors/v1/tenants/idcs-6d466372210e4300bb31f4db15e8e96c/listeners/webhook/channels/490cc1df-7e6a-46dc-bb08-3cb159f253bb';
-// module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'G3TEKZfGU8zVuaVECYPYNSGEYrucVTpF';
-//GACA Bot
-module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://oda-9f5ea08ea98d4248972c35faacd35d8f-da15.data.digitalassistant.oci.oraclecloud.com/connectors/v2/listeners/webhook/channels/27ba0684-513d-47fb-a06a-1e8b92e5b90a';
-module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'rzAWgOBnBS3XvwsWgVLwsjZ2AsmhiVpy';
+module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://botv2frk1I0056HE58FAAbots-mpaasocimt.botmxp.ocp.oraclecloud.com:443/connectors/v1/tenants/idcs-6d466372210e4300bb31f4db15e8e96c/listeners/webhook/channels/490cc1df-7e6a-46dc-bb08-3cb159f253bb';
+module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'G3TEKZfGU8zVuaVECYPYNSGEYrucVTpF';
+//CM Whatsapp Config(PIZZA BOT)
+exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
+exports.CM_FROM = process.env.CM_FROM || '0031762011571'
+//Channel Type
+exports.CM_CHANNEL = process.env.CM_CHANNEL || 'Whatsapp';
+//##################################################GACA Bot###############################################################
+// //GACA Bot
+// module.exports.ODA_WEBHOOK_URL = process.env.BOT_WEBHOOK_URL || 'https://oda-9f5ea08ea98d4248972c35faacd35d8f-da15.data.digitalassistant.oci.oraclecloud.com/connectors/v2/listeners/webhook/channels/27ba0684-513d-47fb-a06a-1e8b92e5b90a';
+// module.exports.ODA_WEBHOOK_SECRET = process.env.BOT_WEBHOOK_SECRET || 'rzAWgOBnBS3XvwsWgVLwsjZ2AsmhiVpy';
+// //CM Twitter Config (GACA)
+// exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
+// exports.CM_FROM = process.env.CM_FROM || '1285550484590407681'
+// //Channel Type
+// exports.CM_CHANNEL = process.env.CM_CHANNEL || 'Twitter';
+//#################################################################################################################
 
 //#### CM Details ######
 exports.CM_GATEWAY_HOST = process.env.CM_GATEWAY_HOST || 'gw.cmtelecom.com'
 exports.CM_GATEWAY_PATH = process.env.CM_GATEWAY_PATH || '/v1.0/message'
-//CM Whatsapp Config(PIZZA BOT)
-//exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
-//exports.CM_FROM = process.env.CM_FROM || '0031762011571'
-//CM Twitter Config (GACA)
-exports.CM_PRODUCT_TOKEN = process.env.CM_PRODUCT_TOKEN || 'B5F20A86-E267-45B3-A14E-2B7459EDA360';
-exports.CM_FROM = process.env.CM_FROM || '1285550484590407681'
-
-//Channel Type
-//exports.CM_CHANNEL = process.env.CM_CHANNEL || 'Whatsapp';
-exports.CM_CHANNEL = process.env.CM_CHANNEL || 'Twitter';
 
 
 // General Details
