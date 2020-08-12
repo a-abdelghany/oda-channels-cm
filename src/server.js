@@ -39,10 +39,6 @@ webhook.on(WebhookEvent.MESSAGE_RECEIVED, message => {
     // } else if (req.query.channel == 'whatsapp') {
     // logger.info('>>>>>>>>>>>>>>>>>Request from WhatsApp.<<<<<<<<<<<<<<<<<<<<<<<');
     // }
-    for (let i = 0; i < message.choices.length; i++) {
-        const element = message.choices[i];
-        logger.info('Choice (' + i + '): ' + element);
-    }
     whatsApp.send(message);
     logger.info('Message Sent successfully to WhatsApp.');
 
