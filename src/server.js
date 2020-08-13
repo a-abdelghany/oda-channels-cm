@@ -4,6 +4,7 @@ const Config = require('../config/Config');
 const Errors = require('../config/Errors');
 const WhatsApp = require('./lib/WhatsApp');
 const log4js = require('log4js');
+const { webhookReceiver } = require('@oracle/bots-node-sdk/typings/middleware/index');
 let logger = log4js.getLogger('Server');
 logger.level = 'debug';
 
@@ -34,11 +35,6 @@ webhook.on(WebhookEvent.ERROR, console.error); // receive errors
 app.post('/bot/message', webhook.receiver()); // receive bot messages
 webhook.on(WebhookEvent.MESSAGE_RECEIVED, message => {
     logger.info('Received a message from ODA, processing message before sending to WhatsApp.');
-    // if (message.choices. == 'twitter') {
-    // logger.info('>>>>>>>>>>>>>>>>>Request from Twitter.<<<<<<<<<<<<<<<<<<<<<<<');
-    // } else if (req.query.channel == 'whatsapp') {
-    // logger.info('>>>>>>>>>>>>>>>>>Request from WhatsApp.<<<<<<<<<<<<<<<<<<<<<<<');
-    // }
     whatsApp.send(message);
     logger.info('Message Sent successfully to WhatsApp.');
 

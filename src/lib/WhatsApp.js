@@ -138,7 +138,7 @@ class WhatsApp {
                 }
             case 'attachment':
                 {
-                    response = self._processODAAttachment(messagePayload.attachment);
+                    response = self._processODAAttachment(messagePayload, userId);
                     break;
                 }
             default:
@@ -392,21 +392,13 @@ class WhatsApp {
         let self = this;
         logger.info("Generating a Text Message");
 
-        text = text.replace(/\\n/g,"\n");
+        text = text.replace(/\\n/g, "\n");
 
-        let response = richMessageTemplate;
-        response.messages.msg[0].richContent.conversation = [{
+        let cmText = [{
             "text": text
         }];
 
-        response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
-        response = response.replace("{{TO_NUMBER}}", userId);
-        response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
-        response = response.replace("{{MESSAGE_TEXT}}", "ODA");
-        response = response.replace("{{ALLOWED_CHANNEL}}", Config.CM_CHANNEL);
-        logger.info("TEXT RESPONSE: " + response);
-        response = JSON.parse(response);
-        return response;
+        return _cmRichContentResponse(cmText);
     }
 
     /**
@@ -418,26 +410,43 @@ class WhatsApp {
         let self = this;
         logger.info("Generating a Carousel");
         let cmCards = self._createCMCard(messagePayload);
+        return _cmRichContentResponse(cmCards);
+    }
+
+    /**
+     * Convert ODA Cards into Smooch Carousel message payload
+     * @returns {object} Smooch carousel message payload.
+     * @param {object} messagePayload - ODA Message Payload
+     */
+    _processODAAttachment(messagePayload, userId) {
+        let self = this;
+        logger.info("Generating Attachment");
+        let cmAttachment = self._createCMAttachment(messagePayload.attachment);
+        return _cmRichContentResponse(cmAttachment);
+    }
+
+    _cmRichContentResponse(richContent) {
         let response = richMessageTemplate;
-        response.messages.msg[0].richContent.conversation = cmCards;
+        response.messages.msg[0].richContent.conversation = richContent;
 
         response = JSON.stringify(response).replace("{{PRODUCT_TOKEN}}", Config.CM_PRODUCT_TOKEN);
         response = response.replace("{{TO_NUMBER}}", userId);
         response = response.replace("{{FROM_NUMBER}}", Config.CM_FROM);
         response = response.replace("{{MESSAGE_TEXT}}", "ODA");
         response = response.replace("{{ALLOWED_CHANNEL}}", Config.CM_CHANNEL);
-        logger.info("CARDS RESPONSE: " + response);
+        logger.info("RESPONSE: " + response);
         response = JSON.parse(response);
 
         return response;
     }
+
 
     /**
      * Convert ODA Attachment Payload to Smooch Attachment message payload.
      * @returns {object} Smooch Attachment message Payload.
      * @param {object} attachment - ODA messagePayload.attachment
      */
-    _processODAAttachment(attachment) {
+    _processODAAttachmentOLD(attachment) {
         let self = this;
         logger.info("Generating attachments");
         let {
@@ -503,6 +512,56 @@ class WhatsApp {
         }
         //smoochCard.actions = smoochActions;
         return smoochCard;
+    }
+
+
+    /**
+    * Convert ODA attachment Object into CM rich content payload
+    * @returns {object} Smooch Attachment message Payload.
+    * @param {object} attachment - ODA messagePayload.attachment
+    */
+    _createCMAttachment(attachment) {
+        let self = this;
+        let attachmentBodyArray = [];
+        let {
+            type,
+            url
+        } = attachment;
+
+        //TODO - Add other file types
+        type = type == 'image' ? type : 'file';
+
+        let fileName = url.split('/');
+        fileName = fileName[fileName.length - 1];
+        let fileExt = fileName.split('.');
+        let mediaName = fileExt[0];
+        fileExt = fileExt[fileExt.length - 1];
+        try {
+            if (fileExt.toLowerCase() == 'pdf' || fileExt.toLowerCase() == 'doc' || fileExt.toLowerCase() == 'docx') {
+                type = 'application';
+            }
+            if (fileExt.toLowerCase() == 'jpg') {
+                fileExt = 'jpeg';
+            }
+            if (fileExt.toLowerCase() == 'doc') {
+                fileExt = 'msword';
+            }
+            if (fileExt.toLowerCase() == 'docx') {
+                fileExt = 'vnd.openxmlformats-officedocument.wordprocessingml.document';
+            }
+        } finally {
+        }
+
+        let mimeType = type + "/" + fileExt;
+        let attachmentBody = {
+            "media": {
+                "mediaName": mediaName,
+                "mediaUri": url,
+                "mimeType": mimeType
+            }
+        };
+        attachmentBodyArray.push(attachmentBody);
+        return attachmentBodyArray;
     }
 
     /**
