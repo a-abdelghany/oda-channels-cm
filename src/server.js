@@ -4,7 +4,6 @@ const Config = require('../config/Config');
 const Errors = require('../config/Errors');
 const WhatsApp = require('./lib/WhatsApp');
 const log4js = require('log4js');
-const { webhookReceiver } = require('@oracle/bots-node-sdk/typings/middleware/index');
 let logger = log4js.getLogger('Server');
 logger.level = 'debug';
 
