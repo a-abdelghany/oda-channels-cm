@@ -398,7 +398,7 @@ class WhatsApp {
             "text": text
         }];
 
-        return _cmRichContentResponse(cmText);
+        return self._cmRichContentResponse(cmText, userId);
     }
 
     /**
@@ -410,7 +410,7 @@ class WhatsApp {
         let self = this;
         logger.info("Generating a Carousel");
         let cmCards = self._createCMCard(messagePayload);
-        return _cmRichContentResponse(cmCards);
+        return self._cmRichContentResponse(cmCards, userId);
     }
 
     /**
@@ -422,10 +422,10 @@ class WhatsApp {
         let self = this;
         logger.info("Generating Attachment");
         let cmAttachment = self._createCMAttachment(messagePayload.attachment);
-        return _cmRichContentResponse(cmAttachment);
+        return self._cmRichContentResponse(cmAttachment, userId);
     }
 
-    _cmRichContentResponse(richContent) {
+    _cmRichContentResponse(richContent, userId) {
         let response = richMessageTemplate;
         response.messages.msg[0].richContent.conversation = richContent;
 
