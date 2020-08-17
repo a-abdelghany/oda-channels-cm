@@ -43,8 +43,8 @@ class WhatsApp {
         //--Creating ODA text message.
         let odaMessages = [];
         odaMessages.push({
-            // userId: userId,
-            userId: to,
+            userId: userId,
+            // userId: to,
             messagePayload: messagePayload,
             metadata: {
                 webhookChannel: Config.CM_CHANNEL
