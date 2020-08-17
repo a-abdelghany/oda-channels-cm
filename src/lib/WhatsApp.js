@@ -37,11 +37,14 @@ class WhatsApp {
         } = payload;
         let userId = from.number;
         //--Adapting text message to ODA text Conversation model
-        let messagePayload = MessageModel.textConversationMessage(message.text);
+        let text = this._handleArabicNumbers(message.text);
+        // let messagePayload = MessageModel.textConversationMessage(message.text);
+        let messagePayload = MessageModel.textConversationMessage(text);
         //--Creating ODA text message.
         let odaMessages = [];
         odaMessages.push({
-            userId: userId,
+            // userId: userId,
+            userId: to,
             messagePayload: messagePayload,
             metadata: {
                 webhookChannel: Config.CM_CHANNEL
@@ -92,6 +95,10 @@ class WhatsApp {
         // }
 
         return responses;
+    }
+
+    _handleArabicNumbers(text){
+        return text.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
     }
 
     /**
@@ -554,6 +561,7 @@ class WhatsApp {
 
         let mimeType = type + "/" + fileExt;
         let attachmentBody = {
+            // "text": "",
             "media": {
                 "mediaName": mediaName,
                 "mediaUri": url,
