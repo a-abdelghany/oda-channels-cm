@@ -97,7 +97,7 @@ class WhatsApp {
         return responses;
     }
 
-    _handleArabicNumbers(text){
+    _handleArabicNumbers(text) {
         return text.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
     }
 
@@ -159,6 +159,7 @@ class WhatsApp {
         return;
         /////////////////////////////////////////////////////////////////////////////////////
 
+        /*
 
         let smoochPayloads = [];
 
@@ -187,7 +188,7 @@ class WhatsApp {
         }
 
         self._sendToSmooch(userId, smoochPayloads);
-
+        */
     }
     /**
      * Send Message to smooch.

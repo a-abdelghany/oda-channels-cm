@@ -49,7 +49,7 @@ app.post('/user/message', async (req, res) => {
         let messages = whatsApp.recieve(req.body);
         messages.forEach(async message => {
             await webhook.send(message);
-            logger.info('>>>>>>>>>>Message to ODA \n' + JSON.stringify(message));
+            logger.info('\n\n>>>>>>>>>>Message to ODA \n' + JSON.stringify(message) + "\n<<<<<<<<<<<<<<");
             logger.info('Message Sent successfully to ODA.');
         });
 
