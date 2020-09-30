@@ -126,13 +126,13 @@ class WhatsApp {
             case 'text':
                 {
                     //to process the twitter buttons, but if there are no actions or their count is more than 3 then text based options is used as an alternative.
-                    let actionsLength=0;
-                    if(actions && actions.length){
+                    let actionsLength = 0;
+                    if (actions && actions.length) {
                         actionsLength = actions.length;
                     }
-                    if(globalActions && globalActions.length){
+                    if (globalActions && globalActions.length) {
                         actionsLength = globalActions.length;
-                    } 
+                    }
                     if (Config.CM_CHANNEL == "Twitter" && actionsLength <= 3) {
                         let cmActions = self._processODAActionsForTwitter(actions, globalActions);
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
@@ -426,7 +426,7 @@ class WhatsApp {
                 actions.forEach(element => {
                     let suggestionsItem = {
                         "action": "Reply",
-                        "label": element.length >= 32 ? element : element.slice(0, 31)
+                        "label": element.length <= 32 ? element : (element.slice(0, 28) + "...")
                     }
                     suggestions.push(suggestionsItem);
                 });
