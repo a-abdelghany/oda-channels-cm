@@ -416,7 +416,7 @@ class WhatsApp {
                 let suggestions = [];
                 actions.forEach(element => {
                     let suggestionsItem = {
-                        "action": element,
+                        "action": "Reply",
                         "label": element
                     }
                     suggestions.push(suggestionsItem);
