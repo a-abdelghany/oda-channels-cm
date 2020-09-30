@@ -45,6 +45,7 @@ app.post('/user/message', async (req, res) => {
     // if (req.header('x-api-key') && req.header('x-api-key') == Config.SMOOCH_WEBHOOK_SECRET) {
     try {
         logger.info('Received a message from WhatsApp, processing message before sending to ODA.');
+        logger.info('\n\n>>>>>>>>>>Message From CM.com \n' + JSON.stringify(req.body) + "\n<<<<<<<<<<<<<<");
         res.status(200).send();
         let messages = whatsApp.recieve(req.body);
         messages.forEach(async message => {
