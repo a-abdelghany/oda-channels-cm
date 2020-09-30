@@ -7,6 +7,7 @@ const _ = require('underscore');
 const { MessageModel } = require('@oracle/bots-node-sdk/lib');
 const log4js = require('log4js');
 const { config } = require('process');
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 let logger = log4js.getLogger('WhatsAppUIBuilder');
 logger.level = 'debug';
 
@@ -125,7 +126,14 @@ class WhatsApp {
             case 'text':
                 {
                     //to process the twitter buttons, but if there are no actions or their count is more than 3 then text based options is used as an alternative.
-                    if (Config.CM_CHANNEL == "Twitter" && (actions || globalActions) && (actions.length + globalActions.length) <= 3) {
+                    let actionsLength=0;
+                    if(actions && actions.length){
+                        actionsLength = actions.length;
+                    }
+                    if(globalActions && globalActions.length){
+                        actionsLength = globalActions.length;
+                    } 
+                    if (Config.CM_CHANNEL == "Twitter" && actionsLength <= 3) {
                         let cmActions = self._processODAActionsForTwitter(actions, globalActions);
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
