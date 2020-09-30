@@ -426,7 +426,7 @@ class WhatsApp {
                 actions.forEach(element => {
                     let suggestionsItem = {
                         "action": "Reply",
-                        "label": element.length >= 32 ? element : element.substr(0, 31)
+                        "label": element.length >= 32 ? element : element.slice(0, 31)
                     }
                     suggestions.push(suggestionsItem);
                 });
