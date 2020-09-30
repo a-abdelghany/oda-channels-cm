@@ -129,7 +129,7 @@ class WhatsApp {
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
 
-                        response = self._processODATextMessage(messageBody, userId);
+                        response = self._processODATextMessage(messageBody,cmActions, userId);
                     } else {
                         // Create Actions for every card.
                         let cmActions = self._processODAActions(actions, globalActions);
@@ -141,7 +141,7 @@ class WhatsApp {
                         }
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
 
-                        response = self._processODATextMessage(messageBody, userId);
+                        response = self._processODATextMessage(messageBody, null, userId);
                         //response = self._processODATextMessage(messagePayload.text, userId);
                     }
                     break;
