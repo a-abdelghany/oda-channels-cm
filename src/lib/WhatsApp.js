@@ -6,6 +6,7 @@ const richMessageTemplate = require('../../config/CMMessageTemplates/ToUserRichC
 const _ = require('underscore');
 const { MessageModel } = require('@oracle/bots-node-sdk/lib');
 const log4js = require('log4js');
+const { config } = require('process');
 let logger = log4js.getLogger('WhatsAppUIBuilder');
 logger.level = 'debug';
 
@@ -123,19 +124,26 @@ class WhatsApp {
         switch (type) {
             case 'text':
                 {
-                    // Create Actions for every card.
-                    let cmActions = self._processODAActions(actions, globalActions);
-                    let messageBody = "";
-                    if (cmActions) {
-                        messageBody = JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActions).slice(1, -1);
+                    if (Config.CM_CHANNEL == "Twitter") {
+                        let cmActions = self._processODAActionsForTwitter(actions, globalActions);
+                        let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
+                        logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
+
+                        response = self._processODATextMessage(messageBody, userId);
                     } else {
-                        messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
+                        // Create Actions for every card.
+                        let cmActions = self._processODAActions(actions, globalActions);
+                        let messageBody = "";
+                        if (cmActions) {
+                            messageBody = JSON.stringify(messagePayload.text).slice(1, -1) + JSON.stringify(cmActions).slice(1, -1);
+                        } else {
+                            messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
+                        }
+                        logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
+
+                        response = self._processODATextMessage(messageBody, userId);
+                        //response = self._processODATextMessage(messagePayload.text, userId);
                     }
-                    logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
-
-                    response = self._processODATextMessage(messageBody, userId);
-                    //response = self._processODATextMessage(messagePayload.text, userId);
-
                     break;
                 };
             case 'card':
@@ -396,16 +404,37 @@ class WhatsApp {
      * @param {string} text - ODA messagePayload.text
      * @param {string} userId - user mobile number 
      */
-    _processODATextMessage(text, userId) {
+    _processODATextMessage(text, actions, userId) {
         let self = this;
         logger.info("Generating a Text Message");
 
         text = text.replace(/\\n/g, "\n");
 
-        let cmText = [{
-            "text": text
-        }];
-
+        let cmText;
+        if (Config.CM_CHANNEL == "Twitter") {
+            if (actions && actions.length) {
+                let suggestions = [];
+                actions.forEach(element => {
+                    let suggestionsItem = {
+                        "action": element,
+                        "label": element
+                    }
+                    suggestions.push(suggestionsItem);
+                });
+                cmText = [{
+                    "text": text,
+                    "suggestions": suggestions
+                }];
+            } else {
+                cmText = [{
+                    "text": text
+                }];
+            }
+        } else {
+            cmText = [{
+                "text": text
+            }];
+        }
         return self._cmRichContentResponse(cmText, userId);
     }
 
@@ -685,8 +714,54 @@ class WhatsApp {
     }
 
     /**
-     * Convert ODA Actions into Smooch Actions.
-     * @returns {object[]} Array of Smooch Actions.
+    * Convert ODA Actions into CM Twitter Actions.
+    * @returns {object[]} Array of CM Actions.
+    * @param {object[]} actions - ODA Actions Array.
+     * @param {object[]} globalActions - ODA Global Actions Array.
+     */
+    _processODAActionsForTwitter(actions, globalActions) {
+        let self = this;
+        logger.info("Generating Buttons");
+
+        // Combine Actions and Global Actions
+        actions = actions ? actions : [];
+        globalActions = globalActions ? globalActions : [];
+        actions = actions.concat(globalActions);
+
+        if (actions && actions.length) {
+            let response = [];
+            // Group Actions by type;
+            actions = _.groupBy(actions, 'type');
+
+            let postbackActions = _.pick(actions, ['postback']);
+            let otherActions = _.omit(actions, ['postback']);
+
+            // process postback buttons lastly
+            response.push(generateActions(otherActions));
+            response.push(generateActions(postbackActions));
+
+            function generateActions(actions) {
+                let response = [];
+                for (var key in actions) {
+                    actions[key].forEach(action => {
+                        let actionAstext = self._createSmoochAction(action)
+                        if (actionAstext) {
+                            response.push(actionAstext);
+                        }
+                    });
+                }
+                return response;
+            }
+            return response;
+        } else
+            return;
+    }
+
+
+
+    /**
+     * Convert ODA Actions into CM Actions.
+     * @returns {object[]} Array of CM Actions.
      * @param {object[]} actions - ODA Actions Array.
      * @param {object[]} globalActions - ODA Global Actions Array.
      */
