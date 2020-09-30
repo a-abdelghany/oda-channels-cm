@@ -129,7 +129,7 @@ class WhatsApp {
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
 
-                        response = self._processODATextMessage(messageBody,cmActions, userId);
+                        response = self._processODATextMessage(messageBody, cmActions, userId);
                     } else {
                         // Create Actions for every card.
                         let cmActions = self._processODAActions(actions, globalActions);
@@ -737,9 +737,14 @@ class WhatsApp {
             let otherActions = _.omit(actions, ['postback']);
 
             // process postback buttons lastly
-            response.push(generateActions(otherActions));
-            response.push(generateActions(postbackActions));
-
+            otherActions = generateActions(otherActions);
+            postbackActions = generateActions(postbackActions);
+            otherActions.forEach(action => {
+                response.push(action);
+            });
+            postbackActions.forEach(action => {
+                response.push(action);
+            });
             function generateActions(actions) {
                 let response = [];
                 for (var key in actions) {
