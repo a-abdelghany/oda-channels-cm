@@ -124,7 +124,7 @@ class WhatsApp {
         switch (type) {
             case 'text':
                 {
-                    if (Config.CM_CHANNEL == "Twitter") {
+                    if (Config.CM_CHANNEL == "Twitter" && (actions.length + globalActions.length) <= 3) {
                         let cmActions = self._processODAActionsForTwitter(actions, globalActions);
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
@@ -417,7 +417,7 @@ class WhatsApp {
                 actions.forEach(element => {
                     let suggestionsItem = {
                         "action": "Reply",
-                        "label": element
+                        "label": element.length >= 32 ? element : element.substr(0, 31)
                     }
                     suggestions.push(suggestionsItem);
                 });
