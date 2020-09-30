@@ -124,7 +124,8 @@ class WhatsApp {
         switch (type) {
             case 'text':
                 {
-                    if (Config.CM_CHANNEL == "Twitter" && (actions.length + globalActions.length) <= 3) {
+                    //to process the twitter buttons, but if there are no actions or their count is more than 3 then text based options is used as an alternative.
+                    if (Config.CM_CHANNEL == "Twitter" && (actions || globalActions) && (actions.length + globalActions.length) <= 3) {
                         let cmActions = self._processODAActionsForTwitter(actions, globalActions);
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
