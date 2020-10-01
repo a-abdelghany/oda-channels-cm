@@ -133,7 +133,7 @@ class WhatsApp {
                     if (globalActions && globalActions.length) {
                         actionsLength = globalActions.length;
                     }
-                    if (Config.CM_CHANNEL == "Twitter" && actionsLength <= 3) {
+                    if (Config.CM_CHANNEL == "Twitter" && actionsLength <= 20) {
                         let cmActions = self._processODAActionsForTwitter(actions, globalActions);
                         let messageBody = JSON.stringify(messagePayload.text).slice(1, -1);
                         logger.info("\n\n>>>>>>> Text: " + messageBody + " <<<<<<<<<<<<<<<<<<");
@@ -426,7 +426,7 @@ class WhatsApp {
                 actions.forEach(element => {
                     let suggestionsItem = {
                         "action": "Reply",
-                        "label": element.length <= 32 ? element : (element.slice(0, 28) + "...")
+                        "label": element.length <= 36 ? element : (element.slice(0, 28) + "...")
                     }
                     suggestions.push(suggestionsItem);
                 });
@@ -746,14 +746,8 @@ class WhatsApp {
             let otherActions = _.omit(actions, ['postback']);
 
             // process postback buttons lastly
-            otherActions = generateActions(otherActions);
-            postbackActions = generateActions(postbackActions);
-            otherActions.forEach(action => {
-                response.push(action);
-            });
-            postbackActions.forEach(action => {
-                response.push(action);
-            });
+            response = generateActions(otherActions);
+            response = response.concat(generateActions(postbackActions));
             function generateActions(actions) {
                 let response = [];
                 for (var key in actions) {
