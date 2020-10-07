@@ -32,28 +32,42 @@ class WhatsApp {
     recieve(payload) {
         let self = this;
         ////////////////////////////////////////////////CM///////////////////////////////////////////////////////
+        // let {
+        //     from,
+        //     to,
+        //     message
+        // } = payload;
+        // let userId = from.number;
+        // //--Adapting text message to ODA text Conversation model
+        // let text = this._handleArabicNumbers(message.text);
+        // let messagePayload = MessageModel.textConversationMessage(text);
+        // //--Creating ODA text message.
+        // let odaMessages = [];
+        // odaMessages.push({
+        //     userId: userId,
+        //     // userId: to,
+        //     messagePayload: messagePayload,
+        //     metadata: {
+        //         webhookChannel: Config.CM_CHANNEL
+        //     }
+        // });
+        // return odaMessages;
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
         let {
             from,
             to,
             message
         } = payload;
         let userId = from.number;
-        //--Adapting text message to ODA text Conversation model
-        let text = this._handleArabicNumbers(message.text);
-        // let messagePayload = MessageModel.textConversationMessage(message.text);
-        let messagePayload = MessageModel.textConversationMessage(text);
-        //--Creating ODA text message.
-        let odaMessages = [];
-        odaMessages.push({
-            userId: userId,
-            // userId: to,
-            messagePayload: messagePayload,
-            metadata: {
-                webhookChannel: Config.CM_CHANNEL
-            }
-        });
-        return odaMessages;
+        let responses = [];
+        responses = self._processWhatsAppMessages(message, userId);
+        return responses;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
         //TODO - Handle all message cases.
         // let {
@@ -96,7 +110,7 @@ class WhatsApp {
         //         }
         // }
 
-        return responses;
+        //return responses;
     }
 
     _handleArabicNumbers(text) {
@@ -256,31 +270,33 @@ class WhatsApp {
 
 
     /**
-     * Process Smooch messages and convert to ODA message format.
+     * Process CM messages and convert to ODA message format.
      * @returns {object []} Array of ODA messages.
-     * @param {object[]} messages - Smooch Messages array to be processed.
+     * @param {object[]} message - CM Messages array to be processed.
      * @param {string} userId - User ID.
      */
-    _processWhatsAppMessages(messages, userId) {
+    _processWhatsAppMessages(message, userId) {
         let self = this;
         let odaMessages = [];
-        messages.forEach(message => {
+        let keys = Object.keys(message);
+        keys.forEach(key => {
             ;
             let messagePayload = {}
-            switch (message.type) {
+            switch (key) {
                 case 'text':
                     {
-                        messagePayload = self._processWhatsAppTextMessage(message.text);
+                        let text = this._handleArabicNumbers(message.text);
+                        messagePayload = self._processWhatsAppTextMessage(text);
                         break;
                     };
-                case 'location':
+                case 'custom':
                     {
-                        messagePayload = self._processWhatsAppLocationMessage(message.coordinates);
+                        messagePayload = self._processWhatsAppLocationMessage(message.custom.location);
                         break;
                     }
                 case 'image':
                     {
-                        messagePayload = self._processWhatsAppMediaMessage(message.mediaUrl, message.mediaType);
+                        messagePayload = self._processWhatsAppMediaMessage(message.media.mediaUri, message.media.contentType);
                         break;
                     }
             }
@@ -377,8 +393,8 @@ class WhatsApp {
         let messagePayload = {
             type: 'location',
             location: {
-                longitude: coordinates.long,
-                latitude: coordinates.lat
+                longitude: coordinates.longitude,
+                latitude: coordinates.latitude
             }
         };
         return messagePayload;
@@ -397,6 +413,7 @@ class WhatsApp {
             attachment: {}
         };
         switch (mediaType) {
+            case 'image/png':
             case 'image/jpeg':
                 {
                     response.attachment.type = 'image',
