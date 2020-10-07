@@ -291,12 +291,16 @@ class WhatsApp {
                     };
                 case 'custom':
                     {
-                        messagePayload = self._processWhatsAppLocationMessage(message.custom.location);
+                        if (message.custom && message.custom.location) {
+                            messagePayload = self._processWhatsAppLocationMessage(message.custom.location);
+                        }
                         break;
                     }
                 case 'image':
                     {
-                        messagePayload = self._processWhatsAppMediaMessage(message.media.mediaUri, message.media.contentType);
+                        if (message.media && message.media.mediaUri) {
+                            messagePayload = self._processWhatsAppMediaMessage(message.media.mediaUri, message.media.contentType);
+                        }
                         break;
                     }
             }
