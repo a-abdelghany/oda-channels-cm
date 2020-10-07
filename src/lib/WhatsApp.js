@@ -301,7 +301,12 @@ class WhatsApp {
                 case 'image':
                     {
                         if (message.media && message.media.mediaUri) {
+                            logger.info("Found an image, link: " + message.media.mediaUri);
+                            logger.info("-------------------------------------------------------------------");
                             messagePayload = self._processWhatsAppMediaMessage(message.media.mediaUri, message.media.contentType);
+                            logger.info("-------------------------------------------------------------------");
+                            logger.info("Process media message response: "+ JSON.stringify(messagePayload));
+                            logger.info("-------------------------------------------------------------------");
                         }
                         break;
                     }
@@ -314,7 +319,9 @@ class WhatsApp {
                 }
             });
         });
-
+        logger.info("-------------------------------------------------------------------");
+        logger.info("Final response: "+ JSON.stringify(odaMessages));
+        logger.info("-------------------------------------------------------------------");
         return odaMessages;
     }
 
