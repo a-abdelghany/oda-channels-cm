@@ -279,8 +279,8 @@ class WhatsApp {
         let self = this;
         let odaMessages = [];
         let keys = Object.keys(message);
+        let addToListFlag = false;
         keys.forEach(key => {
-            ;
             let messagePayload = {}
             switch (key) {
                 case 'text':
@@ -288,39 +288,45 @@ class WhatsApp {
                         if (message.text) {
                             let text = this._handleArabicNumbers(message.text);
                             messagePayload = self._processWhatsAppTextMessage(text);
+                            addToListFlag = true;
                         }
                         break;
-                    };
+                    }
                 case 'custom':
                     {
                         if (message.custom && message.custom.location) {
                             messagePayload = self._processWhatsAppLocationMessage(message.custom.location);
+                            addToListFlag = true;
                         }
                         break;
                     }
                 case 'media':
                     {
                         if (message.media && message.media.mediaUri) {
-                            logger.info("Found an image, link: " + message.media.mediaUri);
-                            logger.info("-------------------------------------------------------------------");
+                            // logger.info("-------------------------------------------------------------------");
+                            // logger.info("Found an image, link: " + message.media.mediaUri);
                             messagePayload = self._processWhatsAppMediaMessage(message.media.mediaUri, message.media.contentType);
-                            logger.info("-------------------------------------------------------------------");
-                            logger.info("Process media message response: "+ JSON.stringify(messagePayload));
-                            logger.info("-------------------------------------------------------------------");
+                            // logger.info("-------------------------------------------------------------------");
+                            // logger.info("Process media message response: " + JSON.stringify(messagePayload));
+                            // logger.info("-------------------------------------------------------------------");
+                            addToListFlag = true;
                         }
                         break;
                     }
             }
-            odaMessages.push({
-                userId: userId,
-                messagePayload: messagePayload,
-                metadata: {
-                    webhookChannel: Config.CM_CHANNEL
-                }
-            });
+            if (addToListFlag) {
+                odaMessages.push({
+                    userId: userId,
+                    messagePayload: messagePayload,
+                    metadata: {
+                        webhookChannel: Config.CM_CHANNEL
+                    }
+                });
+                addToListFlag = false;
+            }
         });
         logger.info("-------------------------------------------------------------------");
-        logger.info("Final response: "+ JSON.stringify(odaMessages));
+        logger.info("Final response: " + JSON.stringify(odaMessages));
         logger.info("-------------------------------------------------------------------");
         return odaMessages;
     }
