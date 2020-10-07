@@ -62,3 +62,5 @@ typings/
 
 # VSCode idea folder
 .vscode
+
+Config.js
