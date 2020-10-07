@@ -298,7 +298,7 @@ class WhatsApp {
                         }
                         break;
                     }
-                case 'image':
+                case 'media':
                     {
                         if (message.media && message.media.mediaUri) {
                             logger.info("Found an image, link: " + message.media.mediaUri);
