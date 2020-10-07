@@ -285,8 +285,10 @@ class WhatsApp {
             switch (key) {
                 case 'text':
                     {
-                        let text = this._handleArabicNumbers(message.text);
-                        messagePayload = self._processWhatsAppTextMessage(text);
+                        if (message.text) {
+                            let text = this._handleArabicNumbers(message.text);
+                            messagePayload = self._processWhatsAppTextMessage(text);
+                        }
                         break;
                     };
                 case 'custom':
@@ -633,10 +635,10 @@ class WhatsApp {
     }
 
     /**
-   * Convert ODA Card Object into CM rich content payload
-   * @returns {object} CM rich content payload Object
-   * @param {object} odaCard - ODA Card object
-   */
+    * Convert ODA Card Object into CM rich content payload
+    * @returns {object} CM rich content payload Object
+    * @param {object} odaCard - ODA Card object
+    */
     _createCMCard(messagePayload) {
         let cmCards = [];
         let self = this;
